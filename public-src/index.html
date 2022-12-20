@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .PageTitle }} :: {{ .CreationDate }}</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+
+<div class="row row-cols-1 row-cols-md-3 mb-3">
+    {{range .Facts}}
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h3 class="my-0 fw-normal">{{.AnsibleFacts.AnsibleFqdn}}</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">{{.AnsibleFacts.AnsibleDefaultIpv4.Interface}}:
+                    {{.AnsibleFacts.AnsibleDefaultIpv4.Address}}</p>
+            </div>
+            <div class="card-body">
+                <dl>
+                    <dt class="text-sm font-medium text-gray-500">{{.AnsibleFacts.AnsibleDistribution }}
+                        {{.AnsibleFacts.AnsibleDistributionVersion }}
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{.AnsibleFacts.AnsibleKernelVersion
+                        }}
+                    </dd>
+                </dl>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">device</th>
+                        <th scope="col">Full %</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range .AnsibleFacts.AnsibleMounts}}
+                    <tr>
+                        <td class="text-left">
+                            {{ .Device }}
+                        </td>
+                        <td>
+                            {{calcPerc .SizeAvailable .SizeTotal}} %
+                        </td>
+                        <td>
+                            {{calcSize .SizeAvailable}}
+                        </td>
+                        <td>
+                            {{calcSize .SizeTotal}}
+                        </td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+</div>
+</body>
+</html>
