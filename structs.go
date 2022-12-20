@@ -12,6 +12,23 @@ var settings struct {
 	exportPath string
 }
 
+type LvsFromJSON struct {
+	SizeG string `json:"size_g"`
+	Vg    string `json:"vg"`
+}
+
+type PvsFromJSON struct {
+	FreeG string `json:"free_g"`
+	SizeG string `json:"size_g"`
+	Vg    string `json:"v_g"`
+}
+type VgsFromJSON struct {
+	FreeG  string `json:"free_g"`
+	NumLvs string `json:"num_lvs"`
+	NumPvs string `json:"num_pvs"`
+	SizeG  string `json:"size_g"`
+}
+
 type AnsibleFactFull struct {
 	AnsibleFacts struct {
 		AnsibleAllIpv4Addresses []string `json:"ansible_all_ipv4_addresses"`
@@ -786,29 +803,6 @@ type AnsibleFactFull struct {
 			Nameservers []string `json:"nameservers"`
 			Search      []string `json:"search"`
 		} `json:"ansible_dns"`
-		AnsibleDocker0 struct {
-			Active     bool     `json:"active"`
-			Device     string   `json:"device"`
-			ID         string   `json:"id"`
-			Interfaces []string `json:"interfaces"`
-			Ipv4       struct {
-				Address   string `json:"address"`
-				Broadcast string `json:"broadcast"`
-				Netmask   string `json:"netmask"`
-				Network   string `json:"network"`
-				Prefix    string `json:"prefix"`
-			} `json:"ipv4"`
-			Ipv6 []struct {
-				Address string `json:"address"`
-				Prefix  string `json:"prefix"`
-				Scope   string `json:"scope"`
-			} `json:"ipv6"`
-			Macaddress string `json:"macaddress"`
-			Mtu        int    `json:"mtu"`
-			Promisc    bool   `json:"promisc"`
-			Stp        bool   `json:"stp"`
-			Type       string `json:"type"`
-		} `json:"ansible_docker0"`
 		AnsibleDomain           string `json:"ansible_domain"`
 		AnsibleEffectiveGroupID int    `json:"ansible_effective_group_id"`
 		AnsibleEffectiveUserID  int    `json:"ansible_effective_user_id"`
@@ -827,61 +821,6 @@ type AnsibleFactFull struct {
 			TERM        string `json:"TERM"`
 			USER        string `json:"USER"`
 		} `json:"ansible_env"`
-		AnsibleEth0 struct {
-			Active bool   `json:"active"`
-			Device string `json:"device"`
-			Ipv4   struct {
-				Address   string `json:"address"`
-				Broadcast string `json:"broadcast"`
-				Netmask   string `json:"netmask"`
-				Network   string `json:"network"`
-				Prefix    string `json:"prefix"`
-			} `json:"ipv4"`
-			Ipv6 []struct {
-				Address string `json:"address"`
-				Prefix  string `json:"prefix"`
-				Scope   string `json:"scope"`
-			} `json:"ipv6"`
-			Macaddress string `json:"macaddress"`
-			Module     string `json:"module"`
-			Mtu        int    `json:"mtu"`
-			Pciid      string `json:"pciid"`
-			Promisc    bool   `json:"promisc"`
-			Speed      int    `json:"speed"`
-			Type       string `json:"type"`
-		} `json:"ansible_eth0"`
-		AnsibleEth01 struct {
-			Ipv4 struct {
-				Address   string `json:"address"`
-				Broadcast string `json:"broadcast"`
-				Netmask   string `json:"netmask"`
-				Network   string `json:"network"`
-				Prefix    string `json:"prefix"`
-			} `json:"ipv4"`
-		} `json:"ansible_eth0_1"`
-		AnsibleEth1 struct {
-			Active bool   `json:"active"`
-			Device string `json:"device"`
-			Ipv4   struct {
-				Address   string `json:"address"`
-				Broadcast string `json:"broadcast"`
-				Netmask   string `json:"netmask"`
-				Network   string `json:"network"`
-				Prefix    string `json:"prefix"`
-			} `json:"ipv4"`
-			Ipv6 []struct {
-				Address string `json:"address"`
-				Prefix  string `json:"prefix"`
-				Scope   string `json:"scope"`
-			} `json:"ipv6"`
-			Macaddress string `json:"macaddress"`
-			Module     string `json:"module"`
-			Mtu        int    `json:"mtu"`
-			Pciid      string `json:"pciid"`
-			Promisc    bool   `json:"promisc"`
-			Speed      int    `json:"speed"`
-			Type       string `json:"type"`
-		} `json:"ansible_eth1"`
 		AnsibleFibreChannelWwn []interface{} `json:"ansible_fibre_channel_wwn"`
 		AnsibleFips            bool          `json:"ansible_fips"`
 		AnsibleFormFactor      string        `json:"ansible_form_factor"`
@@ -922,83 +861,9 @@ type AnsibleFactFull struct {
 			Release      string `json:"release"`
 		} `json:"ansible_lsb"`
 		AnsibleLvm struct {
-			Lvs struct {
-				AptCache struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"apt-cache"`
-				Backup struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"backup"`
-				Data struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"data"`
-				Docker struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"docker"`
-				Elasticsearch struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"elasticsearch"`
-				Home struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"home"`
-				Influxdb struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"influxdb"`
-				Lvswap struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"lvswap"`
-				Mongodb struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"mongodb"`
-				Mysql struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"mysql"`
-				ResticCache struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"restic-cache"`
-				Syslog struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"syslog"`
-				UsrShareElasticsearch struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"usr-share-elasticsearch"`
-				Vhosts struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"vhosts"`
-				Vmail struct {
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"vmail"`
-			} `json:"lvs"`
-			Pvs struct {
-				DevSda3 struct {
-					FreeG string `json:"free_g"`
-					SizeG string `json:"size_g"`
-					Vg    string `json:"vg"`
-				} `json:"/dev/sda3"`
-			} `json:"pvs"`
-			Vgs struct {
-				Tank0 struct {
-					FreeG  string `json:"free_g"`
-					NumLvs string `json:"num_lvs"`
-					NumPvs string `json:"num_pvs"`
-					SizeG  string `json:"size_g"`
-				} `json:"tank0"`
-			} `json:"vgs"`
+			Lvs map[string]LvsFromJSON `json:"lvs"`
+			Pvs map[string]PvsFromJSON `json:"pvs"`
+			Vgs map[string]VgsFromJSON `json:"vgs"`
 		} `json:"ansible_lvm"`
 		AnsibleMachine   string `json:"ansible_machine"`
 		AnsibleMachineID string `json:"ansible_machine_id"`
@@ -1115,6 +980,7 @@ var allServer []AnsibleFactFull
 
 var ServerFacts struct {
 	PageTitle    string
+	Version      string
 	CreationDate time.Time
 	Facts        []AnsibleFactFull
 }

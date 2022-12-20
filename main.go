@@ -12,7 +12,6 @@ import (
 )
 
 func init() {
-	//temp = template.Must(template.New("index.html").Funcs(template.FuncMap(myFuncMap)).ParseFiles("public-src/index.html"))
 	temp = template.Must(template.New("index.html").Funcs(template.FuncMap{
 		"calcPerc": func(available int64, total int64) string {
 			return fmt.Sprintf("%.1f", 100-100.*(float32(available)/float32(total)))
@@ -49,35 +48,33 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Print("opened ", file.Name())
+		fmt.Println("opened ", file.Name())
+
+		byteValue, errReadAll := io.ReadAll(jsonFile)
+		if errReadAll != nil {
+			log.Fatalln(errReadAll)
+		}
 
 		err = jsonFile.Close()
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		byteValue, _ := io.ReadAll(jsonFile)
-
-		// we initialize our Users array
 		var facts AnsibleFactFull
-
-		// we unmarshal our byteArray which contains our
-		// jsonFile's content into 'users' which we defined above
 		err = json.Unmarshal(byteValue, &facts)
 		if err != nil {
-			return
+			log.Fatalln(err)
 		}
 		allServer = append(allServer, facts)
 
-		fmt.Println("*")
+		fmt.Println(facts.AnsibleFacts.AnsibleLvm.Lvs)
+		fmt.Println(facts.AnsibleFacts.AnsibleLvm.Pvs)
+		fmt.Println(facts.AnsibleFacts.AnsibleLvm.Vgs)
+
 	}
 
+	fmt.Println("Generate output in " + settings.exportPath)
 	f, err = os.Create(settings.exportPath + "/index.html")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	err = f.Close()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -90,4 +87,10 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	err = f.Close()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 }
