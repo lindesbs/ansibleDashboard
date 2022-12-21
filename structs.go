@@ -6,7 +6,7 @@ import (
 )
 
 var temp *template.Template
-var strTemplate = "./public-src/index.html"
+
 var settings struct {
 	importPath string
 	exportPath string
