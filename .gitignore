@@ -15,3 +15,4 @@
 # vendor/
 !/ansibleDashboard
 !/package-lock.json
+/public/index.html

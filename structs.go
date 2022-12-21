@@ -983,4 +983,5 @@ var ServerFacts struct {
 	Version      string
 	CreationDate time.Time
 	Facts        []AnsibleFactFull
+	CssFile      string
 }

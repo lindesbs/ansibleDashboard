@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/inhies/go-bytesize"
+	"html"
 	"html/template"
 	"io"
 	"io/fs"
@@ -22,8 +23,12 @@ const (
 
 var (
 	//go:embed templates/* templates/layouts/*
-	files     embed.FS
-	templates map[string]*template.Template
+	files          embed.FS
+	templates      map[string]*template.Template
+	cssFileContent []byte
+
+	//go:embed templates/css/bootstrap.css
+	cssFile embed.FS
 )
 
 func LoadTemplates() error {
@@ -49,10 +54,10 @@ func LoadTemplates() error {
 			return err
 		}
 
-		fmt.Println(mapKey)
-
 		templates[mapKey] = pt
 	}
+
+	cssFileContent, _ = cssFile.ReadFile("templates/css/bootstrap.css")
 	return nil
 }
 
@@ -131,7 +136,7 @@ func main() {
 	ServerFacts.PageTitle = "ansible Dashboard"
 	ServerFacts.CreationDate = time.Now()
 
-	fmt.Println("prepare")
+	ServerFacts.CssFile = html.UnescapeString(string(cssFileContent))
 
 	temp := templates["index"]
 	if temp == nil {
